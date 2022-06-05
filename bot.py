@@ -33,20 +33,23 @@ async def on_message(message):
         pl_pre = "https://www.primeleague.gg/leagues/teams/"
         
         if url_try.startswith(pl_pre):
-          #try:    
-          md_string = parse_and_create(team_url=url_try,file_name="nms.md") 
-          start_bound = 0
-          end_bound = 1900
-          while end_bound < len(md_string):
-            await message.channel.send(f"{md_string[start_bound:end_bound]}")
-            start_bound = end_bound 
-            end_bound += 1900
-          await message.channel.send(f"{md_string[start_bound:]}")  
-          ##except:
-          ##  await message.channel.send(f"Something went wrong :*( \nTeamlink could not be analysed...")     
+          try:    
+            md_string = parse_and_create(team_url=url_try,file_name="nms.md") 
+            start_bound = 0
+            end_bound = 1900
+            while end_bound < len(md_string):
+              end_bound = end_bound + md_string[end_bound:].find("\n")
+              #print(md_string[end_bound:])
+              await message.channel.send(f"{md_string[start_bound:end_bound]}")
+              start_bound = end_bound
+              end_bound += 1900
+            if len(md_string) > start_bound and (md_string[start_bound:].replace(" ","").replace("\n","")) != "":   
+              await message.channel.send(f"{md_string[start_bound:]}")  
+          except:
+            await message.channel.send(f"Something went wrong :*( \nTeamlink could not be analysed...")     
         else: 
           await message.channel.send(f"Wrong URL-Format! \nGiven url '{url_try}' needs to begin with {pl_pre}")         
-        
+        print("listening...")
     
     return   
   

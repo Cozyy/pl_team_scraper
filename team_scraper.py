@@ -226,8 +226,9 @@ def create_formatted_discord_md_file(res_json,team_url,file_name="markdown.md"):
         cur_wr = 0
     else:
         cur_wr = round(res_json['teamstats']['player_stats'][player]['wins']/cur_games*100,2)
-    #print(player)  
-    cur_md +=       "__                                                                                                 __ \n"
+    #print(player) 
+    underlining = "__                                                                                                 __ \n" 
+    cur_md += underlining      
     cur_md += f"Name: {player}  \n"
     player_op_gg = f"https://euw.op.gg/summoners/euw/{player}".replace(" ","+")
     cur_md += f"op.gg : {player_op_gg}  \n"
@@ -236,7 +237,7 @@ def create_formatted_discord_md_file(res_json,team_url,file_name="markdown.md"):
     
     
     ### add champions played info to cur player md string 
-    cur_md += "Champions played (sorted by total games played):  \n"
+    cur_md += "Champions played (sorted by total games played):  \n\n"
     champs_md = []
     for cur_champ in cur_champs_played:
         cur_champ_md = ""
@@ -248,7 +249,7 @@ def create_formatted_discord_md_file(res_json,team_url,file_name="markdown.md"):
     champs_md = sort_by_other_list(champs_md,only_games_played_of_champs)
     
     #put rank before each champ 
-    champs_md = [f"    *{i+1}.* {ch_md}" for i,ch_md in enumerate(champs_md)]
+    champs_md = [f"*{i+1}.* {ch_md}" for i,ch_md in enumerate(champs_md)]
     
     for ch in champs_md:
         cur_md += ch
@@ -274,7 +275,8 @@ def create_formatted_discord_md_file(res_json,team_url,file_name="markdown.md"):
   md_string = ""
   for m in markdown_l:
       md_string += m 
-      
+  md_string += underlining 
+  md_string += "\n \n"    
   with open(file_name,"w") as f:
       f.write(md_string)
   return md_string        
