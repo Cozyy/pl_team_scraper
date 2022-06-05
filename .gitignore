@@ -133,4 +133,5 @@ dmypy.json
 
 *.json 
 
-.md 
+*.md 
+markdown.md
